@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<!--
+  Authors:
+      Andrew Coakley (A00398990)
+      Keenan King (A00401667)
+      // To-do insert other names
+
+      The purpose of this file is to act as a learning platform for Dalhousie Architecture.
+-->
+
+<head>
+  <title>P1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="./css/themes/theme.css" />
+  <link rel="stylesheet" href="./css/themes/jquery.mobile-1.4.5.min.css" />
+  <link rel="stylesheet" href="./css/themes/p1.css" />
+
+  <script src="./scripts/jquery-1.11.1.min.js"></script>
+  <script src="./scripts/jquery.mobile-1.4.5.min.js"></script>
+  <script src="./scripts/p1.js"></script>
+</head>
+
+<body onload="setup()">
+  <!--ROW 1-->
+  <div class="ui-grid-c ui-responsive">
+    <div class="ui-block-a">
+      <h1 id="title">Project <b>XS</b></h1>
+    </div>
+    <div class="ui-block-b">
+      <div id="shipCrate">
+        <img
+          id="shipcrate"
+          width="260"
+          height="194"
+          src="shipcrate.jpg"
+          alt="shipcrate"
+        />
+      </div>
+    </div>
+    <div class="ui-block-c">
+      <div id="mainSelDiv">
+        <select class="blueTextSel" id="select" onChange="hide()">
+          <option value="">VIEW CHAPTERS</option>
+          <option value="" disabled>Ventilation and Drafts</option>
+          <option value="insulation">Insulation</option>
+          <option value="" disabled>Size and Proportion</option>
+          <option value="" disabled>Immediate Context</option>
+          <option value="" disabled>Construction Details</option>
+          <option value="" disabled>Energy Sources</option>
+          <option value="" disabled>Refrigeration Cycle</option>
+          <option value="" disabled>Psychrometrics</option>
+          <option value="" disabled>Environmental Impacts</option>
+          <option value="" disabled>Radiation and Glazing</option>
+        </select>
+      </div>
+    </div>
+    <div class="ui-block-d"></div>
+  </div>
+  <!--END ROW 1-->
+
+  <!--START INSULATION SECTION-->
+  <div id="insulation">
+    <!--ROW 2-->
+    <div class="ui-grid-c ui-responsive">
+      <div class="ui-block-a">
+        <div>
+          <canvas class="ctr" id="plan" width="321" height="178"> </canvas>
+        </div>
+      </div>
+      <div class="ui-block-b"></div>
+      <div class="ui-block-c">
+        <div>
+          <canvas class="ctr" id="elevation" width="321" height="154"> </canvas>
+        </div>
+      </div>
+      <div class="ui-block-d"></div>
+    </div>
+    <!--END ROW 2-->
+
+    <!--ROW 3-->
+    <div class="ui-grid-c ui-responsive">
+      <div id="blueSel1" class="ui-block-a">
+        <select id="">
+          <option value="">PLACES WITH DEGREE DAYS</option>
+          <option value="">NV Alert -13030</option>
+          <option value="">NV Iqaluit -9980</option>
+          <option value="">NV Resolution Island - 9000</option>
+          <option value="">NW Yellowknife - 8170</option>
+          <option value="">ON Attawapiskat - 7100</option>
+          <option value="">MB FlinFlon - 6440</option>
+          <option value="">QC Noranda - 6050</option>
+          <option value="">MB Winnipeg - 5670</option>
+          <option value="">NB Campbellton - 5500</option>
+          <option value="">AL Calgary - 5000</option>
+          <option value="">NL St. Johns - 4800</option>
+          <option value="">NB Fredericton - 4670</option>
+          <option value="">ON Ottawa - 4520</option>
+          <option value="">PE Charlottetown - 4460</option>
+          <option value="">QC Montreal Centre - 4300</option>
+          <option value="">NS Halifax - 4000</option>
+          <option value="">ON Toronto CH - 3500</option>
+          <option value="">ON Windsor - 3400</option>
+          <option value="">BC Nanaimo - 3000</option>
+          <option value="">BC Vancouver - 2900</option>
+          <option value="">BC White Rock - 2620</option>
+        </select>
+      </div>
+      <div id="blueSel2" class="ui-block-b">
+        <select
+          name="construction"
+          id="construction"
+          onchange="processInput()"
+          data-mini="true"
+        >
+          <option value="top">OPAQUE CONSTRUCTION WITH R or R/INCH</option>
+          <option value="0">Bare Container (R1)</option>
+          <option value="0">Plus Interior Finish, Uninsulated (R2)</option>
+          <option value="3">Plus Finish and Cellulose (R3/in)</option>
+          <option value="3">Plus Finish and Fiberglass (R3/in)</option>
+          <option value="6">Plus Finish and Spray Foam (R6/in)</option>
+        </select>
+      </div>
+      <div id="blueSlider" class="ui-block-c">
+        <input
+          id="planSld"
+          type="range"
+          value="2"
+          min="2"
+          max="24"
+          ui-slider-input="false"
+          data-highlight="true"
+        />
+
+        <table class="align">
+          <tr>
+            <td id="opaque">
+              <input type="text" />
+            </td>
+            <td>
+              <label>(") Opaque Thickness</label>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="ui-block-d"></div>
+    </div>
+    <!--END ROW 3-->
+
+    <!--ROW 4-->
+    <div class="ui-grid-c ui-responsive">
+      <div class="ui-block-a">
+        <table class="align">
+          <tr>
+            <td id="opaque">
+              <input type="text" />
+            </td>
+            <td>
+              <label>(R) Opaque Thermal Resistance</label>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div id="blueSlider" class="ui-block-b">
+        <input type="range" value="0" min="0" max="200" data-highlight="true" />
+        <table class="align">
+          <tr>
+            <td id="opaque">
+              <input type="text" />
+            </td>
+            <td>
+              <label>(R) Door Thermal Resistance</label>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div id="blueSlider" class="ui-block-c">
+        <input type="range" value="0" min="0" max="200" data-highlight="true" />
+        <table class="align">
+          <tr>
+            <td id="opaque">
+              <input type="text" />
+            </td>
+            <td>
+              <label>(R) Window Thermal Resistance</label>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="ui-block-d"></div>
+    </div>
+    <!--END ROW 4-->
+    <!--ROW 5-->
+    <div class="ui-grid-c ui-responsive">
+      <div id="blueSlider" class="ui-block-a">
+        <input
+          id="windowSld"
+          type="range"
+          value="0"
+          min="0"
+          max="48"
+          ui-slider-input="false"
+          data-highlight="true"
+        />
+        <table class="align">
+          <tr>
+            <td id="opaque">
+              <input type="text" />
+            </td>
+            <td>
+              <label>(SQ.FT.) Window Area</label>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="ui-block-b">
+        <table class="align">
+          <tr>
+            <td id="opaque">
+              <input type="text" />
+            </td>
+            <td>
+              <label>(R) Effective Overall Thermal Resistance</label>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="ui-block-c">
+        <table class="align">
+          <tr>
+            <td id="annual">
+              <input type="text" />
+            </td>
+            <td>
+              <label>(kWh) Annual Energy</label>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="ui-block-d"></div>
+    </div>
+    <!--END ROW 5-->
+
+    <!--ROW 6-->
+    <div class="ui-grid-c ui-responsive">
+      <div class="ui-block-a">
+        <select id="">
+          <option value="">GRAPHS</option>
+          <option value="" disabled>Graph 1</option>
+          <option value="" disabled>Graph 2</option>
+        </select>
+      </div>
+      <div class="ui-block-b">
+        <select id="">
+          <option value="">READOUTS</option>
+          <option value="" disabled>Net to Gross Floor Area</option>
+          <option value="" disabled>Energy Bill Per Net Floor Area</option>
+        </select>
+      </div>
+      <div class="ui-block-c">
+        <select id="">
+          <option value="">CONCEPTS</option>
+          <option value="">Local Conditions</option>
+          <option value="">Annual Energy Budget</option>
+          <option value="">Drafts and Ventilation</option>
+          <option value="">Insulation and Heat Loss</option>
+          <option value="">Materials and Insulation</option>
+          <option value="">Environmental Impact</option>
+        </select>
+      </div>
+      <div class="ui-block-d"></div>
+    </div>
+    <!--END ROW 6-->
+  </div>
+  <!--END INSULATION SECTION-->
+</body>
