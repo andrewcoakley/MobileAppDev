@@ -1,9 +1,9 @@
 /*
   Authors:
-    Terry Goldsmith (Originator)
-    Andrew Coakley (A00398990)
-    Keenan King (A00401667)
-    // To-do add other names
+      Andrew Coakley (A00398990)
+      Amr Ghoneim (A00425709)
+      Keenan King (A00401667)
+      Jalen Pinder (A00420851)
 
     The purpose of this file is to provide function definitions for the p1.html file.
 */
@@ -63,7 +63,7 @@ function setup() {
 
   // the door
   contextP.setLineDash([]);
-  contextP.setLineWidth(3);
+  contextP.lineWidth = "3";
   contextP.strokeStyle = "black";
   contextP.beginPath();
   contextP.moveTo(plan.width / SCL - Number(30), 96 * SCL);
@@ -83,7 +83,7 @@ function setup() {
   );
 
   // reset line width
-  contextP.setLineWidth(1);
+  contextP.lineWidth = "1";
 
   // doorway inner threshold
   contextP.setLineDash([4, 3]);
@@ -105,11 +105,47 @@ function setup() {
   contextP.stroke();
 
   //--------------Initial view of the elevation ------------------------------
-
   // elevation wall
   contextE.fillStyle = "#a3bcfd"; // light blue to give hint
   contextE.fillRect(0, 0, elevation.width, elevation.height);
 
+  // outer solid black circle
+  contextE.fillStyle = "black";
+  contextE.fillRect(
+    200,
+    elevation.height - 80 * SCL - 7 * SCL + 2,
+    36 * SCL,
+    80 * SCL + 1
+  );
+
+  // inner solid blue circle
+  contextE.fillStyle = "#a3bcfd";
+  contextE.fillRect(
+    204,
+    elevation.height - 80 * SCL - 7 * SCL + 6,
+    36 * SCL - 8,
+    80 * SCL - 7
+  );
+
+  // middle non-filled blue circle to create double black line
+  contextE.lineWidth = "2";
+  contextE.strokeStyle = "#a3bcfd";
+  contextE.beginPath();
+  contextE.rect(
+    202,
+    elevation.height - 80 * SCL - 7 * SCL + 4,
+    36 * SCL - 4,
+    80 * SCL - 3
+  );
+  contextE.stroke();
+
+  // black circle in the middle
+  contextE.strokeStyle = "black";
+  contextE.beginPath();
+  contextE.arc(235, 95, 3, 0, 2 * Math.PI);
+  contextE.stroke();
+
+  //---------------------Get the values---------------------------
   // set initial slider value 2" output for display purposes only
   $("#planSldOut").val(2);
 
@@ -119,6 +155,12 @@ function setup() {
   // set opaque thermal resistance output
   $("#wallOut").val("");
 
+  // set window thermal resistance slider to 1
+  $("#F").val(1);
+
+  // set door thermal resistance slider to 1
+  $("#E").val(2);
+
   // register the wall thickness slider
   $("#planSld").on("change", function () {
     processInput();
@@ -126,6 +168,16 @@ function setup() {
 
   // register the window thickness slider
   $("#windowSld").on("change", function () {
+    processInput();
+  });
+
+  // register the window thermal resistance slider
+  $("#W").on("change", function () {
+    processInput();
+  });
+
+  // register the door thermal resistance slider
+  $("#winSlider").on("change", function () {
     processInput();
   });
 }
@@ -158,11 +210,12 @@ function hide() {
 function processInput() {
   let construction = $("#planSld").val();
   let constructionType = $("#construction option:selected").val();
+  let place = $("#place option:selected").val();
   let window = $("#windowSld").val();
   let rInch = $("#construction").find(":selected").text();
 
   draw(construction, window, rInch);
-  calculate(construction, window, constructionType);
+  calculate(construction, window, constructionType, place);
 }
 
 /* 
@@ -274,7 +327,7 @@ function draw(construction, window, rInch) {
 
   // the door
   contextP.setLineDash([]);
-  contextP.setLineWidth(3);
+
   contextP.strokeStyle = "black";
   contextP.beginPath();
   contextP.moveTo(plan.width / SCL - Number(30), 96 * SCL);
@@ -294,7 +347,7 @@ function draw(construction, window, rInch) {
   );
 
   // reset line width
-  contextP.setLineWidth(1);
+  contextP.lineWidth = "1";
 
   // doorway inner threshold
   contextP.setLineDash([4, 3]);
@@ -320,8 +373,7 @@ function draw(construction, window, rInch) {
   contextE.fillStyle = "#a3bcfd"; // light blue to give hint
   contextE.fillRect(0, 0, elevation.width, elevation.height);
 
-  // preexisting door
-
+  // ----------------------fixed door-----------------------
   // outer solid black circle
   contextE.fillStyle = "black";
   contextE.fillRect(
@@ -358,6 +410,7 @@ function draw(construction, window, rInch) {
   contextE.arc(235, 95, 3, 0, 2 * Math.PI);
   contextE.stroke();
 
+  //-----------------------------adjustable window-------------------------------
   // elevation window 4 x 3 aspect ratio
   // elevation window frame
   // black
@@ -405,21 +458,56 @@ function draw(construction, window, rInch) {
     - constructionType (will be used in subsequent calculations)
   Void
 */
-function calculate(construction, window, constructionType) {
+function calculate(construction, window, constructionType, place) {
   // update slider value outputs for display purposes only
-  $("#planSldOut").val(construction);
+  if (construction < 8) {
+    $("#planSldOut").val(2);
+  } else {
+    $("#planSldOut").val(construction / 2);
+  }
 
   // output window area in square feet to one decimal place, truncated not rounded
   let windowArea = (window / 12) * (((window / 12) * 3) / 4);
-  let windowAreaTrunc = Math.trunc(Number(windowArea) * 10) / 10;
+  let windowAreaTrunc = Math.trunc(Number(windowArea) * 10) / 10; // G
   $("#windowSldOut").val(windowAreaTrunc);
 
-  // opaque thermal resistance output
+  // opaque thermal resistance output (D)
   let wallR = 0;
-  if (construction >= 4 && constructionType != "top") {
+  if (construction >= 8 && constructionType != "top") {
     let DTI = construction - 2;
     let materialR = $("#construction option:selected").val();
     wallR = 2 + DTI * materialR;
     $("#wallOut").val(wallR);
+  }
+
+  // window thermal resistance (F)
+  let WTR = $("#W").val();
+  $("#F").val(WTR);
+
+  // door thermal resistance (E)
+  let DTR = $("#winSlider").val();
+  $("#E").val(DTR);
+
+  // effective overall thermal resistance output (H)
+  let EOTR = 0; // H
+
+  if (construction >= 8 && constructionType != "top") {
+    EOTR =
+      1 /
+      (((800 - windowAreaTrunc) / wallR + windowAreaTrunc / WTR + 20 / DTR) /
+        820);
+    $("#H").val(EOTR);
+  }
+
+  // annual energy (I)
+  let AE = 0; // I
+
+  if (construction >= 8 && constructionType != "top" && place != "top") {
+    AE =
+      (820 * place * 1.8 * 24) / EOTR / 3412 +
+      (place * 1.8 * 24 * 65) / 3412 +
+      3000;
+
+    $("#I").val(AE);
   }
 }
