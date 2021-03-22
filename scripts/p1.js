@@ -460,14 +460,13 @@ function draw(construction, window, rInch) {
 */
 function calculate(construction, window, constructionType, place) {
   // update slider value outputs for display purposes only
-  if (construction < 8) {
-    $("#planSldOut").val(2);
-  } else {
+  if (construction >= 8) {
     $("#planSldOut").val(construction / 2);
   }
 
   // output window area in square feet to one decimal place, truncated not rounded
-  let windowArea = (window / 12) * (((window / 12) * 3) / 4);
+  let windowWidth = (window / 12) * (((window / 12) * 3) / 4) * (9 / 12);
+  let windowArea = windowWidth * ((windowWidth * 3) / 4);
   let windowAreaTrunc = Math.trunc(Number(windowArea) * 10) / 10; // G
   $("#windowSldOut").val(windowAreaTrunc);
 
