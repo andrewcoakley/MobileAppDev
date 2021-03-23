@@ -26,6 +26,10 @@ h1 {
   color: #3104fb !important;
 }
 
+p {
+  padding: 20px;
+}
+
 select {
   width: 114px;
 }

@@ -451,13 +451,13 @@ function draw(construction, window, rInch) {
 }
 
 /* 
-  This function will eventually be the one that does the calculations. However currently
-  it is unfinished.
+  This function controls the calculations. 
 
   Input:
     - construction (thickness of the walls)
     - window (size of the window)
     - constructionType (will be used in subsequent calculations)
+    - place comes from the places with degrees days button
   Void
 */
 function calculate(construction, window, constructionType, place) {
@@ -514,6 +514,12 @@ function calculate(construction, window, constructionType, place) {
   }
 }
 
+/* This function controls the text displayed by the concepts button. It displays text
+   to the bottom of the screen based on which item is selected.
+
+   No parameters
+   Void
+*/
 function textSwitch() {
   let choice = $("#conceptsDrop").val();
 
@@ -527,6 +533,55 @@ function textSwitch() {
       "Warmer climates also imply a cooling load: also a subject for other chapters.<br><br>" +
       "Please note that to reflect the Canadian experience, this app mixes units: Celsius for temperature, " +
       "for example, but inches and feet for dimensions.";
-  } else if (choice == "") {
+  } else if (choice == "annual energy budget") {
+    document.getElementById("conceptsText").innerHTML =
+      "Annual Energy Budget<br><br> Envelope heat loss is only past of an energy budget." +
+      "Envelope heat loss is only part of an energy budget. Lights, hot water applicances " +
+      "and electronics also consume energy. In this chapter those other loads are fixed, " +
+      "on the assumption that use of the building remains contant in all locations.<br><br>" +
+      "Envelope heat loss has at least two components: the effectively conductive losses that " +
+      "can be reduced by insulation, and losses due to ventilation and drafts. Both are " +
+      "proportional to heating demand. Looking at the Energy Budget graph. You will see" +
+      " that changing the insulation levels changes the conductive or insulation losses " +
+      "but not those due to air movement.";
+  } else if (choice == "drafts and ventilation") {
+    document.getElementById("conceptsText").innerHTML =
+      "Drafts and Ventilation<br><br>Realistically, a larger window would admit more " +
+      "drafts, especially at the lower end of the quality scale, but that effect is " +
+      "ignored in the insulation chapter.<br><br>The Drafts and Ventilation chapter " +
+      "explains how energy losses due to infiltration are controlled by membranes, " +
+      "sealants, joint design, and meticulous quality control. It shows how ventilation " +
+      "losses can be managed through heat exchange, flow controls, and careful use of " +
+      "operable windows and vents.";
+  } else if (choice == "insulation and heat loss") {
+    document.getElementById("conceptsText").innerHTML =
+      "Insulation and Heat Loss<br><br>In North America, thermal resistance is measured in " +
+      "R-Values. The resistance of a material barrier is a product of its resistivity. " +
+      "In R/inch, and the inches of thickness. The actual effectiveness of insulation " +
+      "depends on installation and other factors, but this app gives drywall an R/inch " +
+      "of 1, fiberglass and cellulose insulation an R/inch of 3, and urethane spray foam " +
+      "spray foam an R/inch of 6.<br><br>In thin and poorly and insulation assembles, " +
+      "air films become significant. This is how painted sheet steel ends up with a " +
+      "nominal R of 1. When assembles are layered, R values can simply be totalled.";
+  } else if (choice == "materials and insulation") {
+    document.getElementById("conceptsText").innerHTML =
+      "Materials and Insulation<br><br>Heat flow is inversely related to thermal resistance. " +
+      "The conduction of heat through a material is given as a U value, which equals to 1/R. " +
+      "Add layers into a single R value before finding their U value.<br><br>Heat loss is a " +
+      "product of surface area and conductance.<br><br>The total thermal liability of an " +
+      "envelope is a sum of the liability of its portions. Average conductance divides " +
+      "the total liability by the total area. The effective R-value of an envelope " +
+      "is the inverse of average conductance.<br><br>Note that high R-value portions " +
+      "of an envelope have a smaller effect on the effective R-value than might be supposed. " +
+      "Conversely, low R-value portions of an envelope such as windows have a larger effect on " +
+      "overall heat loss than their small area may suggest.";
+  } else if (choice == "environmental impact") {
+    document.getElementById("conceptsText").innerHTML =
+      "Environmental Impact<br><br>The environmental impact of construction depends " +
+      "not only on the energy consumed in perating a building, but in the energy consumed " +
+      "or 'embodied' in the material through sourcing, manufacture, transport, and assembly. " +
+      "Additionally, toxins and other ecological and social injuries need to be accounted " +
+      "for. The exact calculations are complicated and debatable, but that's no reason " +
+      "to ignore them. They are the subject of several other chapters.";
   }
 }
