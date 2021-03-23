@@ -510,3 +510,58 @@ function calculate(construction, window, constructionType, place) {
     $("#I").val(AE);
   }
 }
+function conDrop() {
+  let conceptType = $("#con option:selected").val();
+  if(conceptType == 1){
+    $("#LocalControl").css("display", "block");
+    $("#annualB").css("display", "none");
+    $("#drafts").css("display", "none");
+    $("#in").css("display", "none");
+    $("#Material").css("display", "none");
+    $("#environment").css("display", "none");
+    
+  } else if(conceptType == 2){
+    $("#LocalControl").css("display", "none");
+    $("#annualB").css("display", "block");
+    $("#drafts").css("display", "none");
+    $("#in").css("display", "none");
+    $("#Material").css("display", "none");
+    $("#environment").css("display", "none");
+  } else if(conceptType == 3){
+
+    $("#LocalControl").css("display", "none");
+    $("#annualB").css("display", "none");
+    $("#drafts").css("display", "block");
+    $("#in").css("display", "none");
+    $("#Material").css("display", "none");
+    $("#environment").css("display", "none");
+
+  } else if(conceptType == 4){
+     
+    $("#LocalControl").css("display", "none");
+    $("#annualB").css("display", "none");
+    $("#drafts").css("display", "none");
+    $("#in").css("display", "block");
+    $("#Material").css("display", "none");
+    $("#environment").css("display", "none");
+
+  } else if(conceptType == 5){
+
+    $("#LocalControl").css("display", "none");
+    $("#annualB").css("display", "none");
+    $("#drafts").css("display", "none");
+    $("#in").css("display", "none");
+    $("#Material").css("display", "block");
+    $("#environment").css("display", "none");
+
+  } else if(conceptType == 6){
+
+    $("#LocalControl").css("display", "none");
+    $("#annualB").css("display", "none");
+    $("#drafts").css("display", "none");
+    $("#in").css("display", "none");
+    $("#Material").css("display", "none");
+    $("#environment").css("display", "block");
+
+  } 
+}
