@@ -18,6 +18,30 @@
 }
 
 /* HTML tag styles*/
+/*These allow certain concepts to be seen depending on what concet option is selected*/
+#LocalControl {
+  display: none;
+}
+
+#annualB {
+  display: none;
+}
+
+#drafts {
+  display: none;
+}
+
+#in {
+  display: none;
+}
+
+#Material {
+  display: none;
+}
+
+#environment {
+  display: none;
+}
 
 h1 {
   margin-top: 70px;
