@@ -274,19 +274,26 @@
         </select>
       </div>
       <div class="ui-block-c">
-        <select id="">
+        <select id="conceptsDrop" onchange="textSwitch()">
           <option value="">CONCEPTS</option>
-          <option value="">Local Conditions</option>
-          <option value="">Annual Energy Budget</option>
-          <option value="">Drafts and Ventilation</option>
-          <option value="">Insulation and Heat Loss</option>
-          <option value="">Materials and Insulation</option>
-          <option value="">Environmental Impact</option>
+          <option value="local conditions">Local Conditions</option>
+          <option value="annual energy budget">Annual Energy Budget</option>
+          <option value="drafts and ventillation">
+            Drafts and Ventilation
+          </option>
+          <option value="insulation and heat loss">
+            Insulation and Heat Loss
+          </option>
+          <option value="materials and insulation">
+            Materials and Insulation
+          </option>
+          <option value="environmental impact">Environmental Impact</option>
         </select>
       </div>
       <div class="ui-block-d"></div>
     </div>
     <!--END ROW 6-->
+    <p id="conceptsText"></p>
   </div>
   <!--END INSULATION SECTION-->
 </body>

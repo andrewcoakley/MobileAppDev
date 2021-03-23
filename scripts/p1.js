@@ -415,12 +415,14 @@ function draw(construction, window, rInch) {
   // elevation window frame
   // black
   contextE.fillStyle = "black";
-  contextE.fillRect(
-    100 * SCL - window * SCL - 22,
-    25 * SCL + 5,
-    2 * window * SCL + Number(6),
-    Number(((3 * window) / 2) * SCL) + Number(11)
-  );
+  if (window > 0) {
+    contextE.fillRect(
+      100 * SCL - window * SCL - 22,
+      25 * SCL + 5,
+      2 * window * SCL + Number(6),
+      Number(((3 * window) / 2) * SCL) + Number(11)
+    );
+  }
   // blue
   contextE.fillStyle = "#a3bcfd";
   contextE.fillRect(
@@ -465,15 +467,16 @@ function calculate(construction, window, constructionType, place) {
   }
 
   // output window area in square feet to one decimal place, truncated not rounded
-  let windowWidth = (window / 12) * (((window / 12) * 3) / 4) * (9 / 12);
+  let windowWidth = (window / 12) * (9 / 12) * 3;
   let windowArea = windowWidth * ((windowWidth * 3) / 4);
   let windowAreaTrunc = Math.trunc(Number(windowArea) * 10) / 10; // G
   $("#windowSldOut").val(windowAreaTrunc);
 
-  // opaque thermal resistance output (D)
-  let wallR = 0;
+  // opaque thermal resistance output (D)  ######FIX##########MINTUE 70 OF LECTURE##################
+  let wallR = 0; // D
   if (construction >= 8 && constructionType != "top") {
-    let DTI = construction - 2;
+    let test = $("#planSldOut").val();
+    let DTI = test - 2;
     let materialR = $("#construction option:selected").val();
     wallR = 2 + DTI * materialR;
     $("#wallOut").val(wallR);
@@ -495,7 +498,7 @@ function calculate(construction, window, constructionType, place) {
       1 /
       (((800 - windowAreaTrunc) / wallR + windowAreaTrunc / WTR + 20 / DTR) /
         820);
-    $("#H").val(EOTR);
+    $("#H").val(Math.trunc(EOTR));
   }
 
   // annual energy (I)
@@ -507,6 +510,23 @@ function calculate(construction, window, constructionType, place) {
       (place * 1.8 * 24 * 65) / 3412 +
       3000;
 
-    $("#I").val(AE);
+    $("#I").val(Math.trunc(AE));
+  }
+}
+
+function textSwitch() {
+  let choice = $("#conceptsDrop").val();
+
+  if (choice == "local conditions") {
+    document.getElementById("conceptsText").innerHTML =
+      "Local Conditions: <br><br> Heating demand is given in heating degree-days." +
+      "The length of a Canadian heating season is the number of days below 18&#xb0;C. " +
+      "Coldness is the difference between a <br> desired indoor temperature of 20&#xb0;C " +
+      "and the average outdoor temperature on those days.<br><br>" +
+      "Humidity and especially windiness of a location also add to heating demand but are discussed elsewhere.<br><br>" +
+      "Warmer climates also imply a cooling load: also a subject for other chapters.<br><br>" +
+      "Please note that to reflect the Canadian experience, this app mixes units: Celsius for temperature, " +
+      "for example, but inches and feet for dimensions.";
+  } else if (choice == "") {
   }
 }
